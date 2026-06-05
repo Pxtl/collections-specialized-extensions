@@ -2,7 +2,7 @@
 
 - Publish as nuget package. CollectionsSpecializedExtensions.
 
-- Support System.Collections.ObjectModel collections.
+- Support System.Collections.ObjectModel, System.Collections.Specialized, System.Collections.Concurrent, System.ComponentModel collections.
 
 - Support arbitrary IDictionary, ISet, IList colections. ICollectionWithAdd?
   Uses reflection but is a common .net idiom.  Some kind of constructor-piping?
