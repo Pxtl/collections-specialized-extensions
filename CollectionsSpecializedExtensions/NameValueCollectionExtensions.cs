@@ -1,28 +1,22 @@
 namespace CollectionsSpecializedExtensions;
+using System.Collections;
 
 /// <summary>
 /// Extension methods for <see cref="NameValueCollection"/>.
 /// </summary>
 /// <remarks>
-/// Provides LINQ-like extension methods to create <see cref="NameValueCollection"/> containing
-/// from enumerable sources.
+/// Provides LINQ-like extension methods to create <see cref="NameValueCollection"/> from
+/// enumerable sources using custom selector functions.
 /// </remarks>
 public static class NameValueCollectionExtensions
 {
-    #region ICollection<T> extensions
     /// <summary>
     /// Creates a new <see cref="NameValueCollection"/> from an <see
-    /// cref="IEnumerable{TElement}"/> using the specified <paramref
-    /// name="keySelector"/> and <paramref name="valueSelector"/>.
+    /// cref="IEnumerable{TElement}"/> using selector parameters.
     /// </summary>
-    /// <typeparam name="TElement">Type of the elements in the enumerable source.</typeparam>
-    /// <param name="source">The enumerable source.</param>
-    /// <param name="keySelector">A function that returns a key for each element.</param>
-    /// <param name="valueSelector">A function that returns a value for each element.</param>
-    /// <returns>A new <see cref="List{T}"/> containing the data from <paramref name="source"/>.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="keySelector"/> is null.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="valueSelector"/> is null.</exception>
+    /// <typeparam name="TElement">Type of elements in the source.</typeparam>
+    /// <returns>A new <see cref="NameValueCollection"/> with the mapped data.</returns>
+    /// <exception cref="ArgumentNullException" />
     public static NameValueCollection ToNameValueCollection<TElement>(
         this IEnumerable<TElement> source,
         Func<TElement, string> keySelector,
@@ -42,30 +36,65 @@ public static class NameValueCollectionExtensions
 
     /// <summary>
     /// Creates a new <see cref="NameValueCollection"/> from an <see
-    /// cref="IEnumerable{TElement}"/> using the specified <paramref
-    /// name="elementSelector"/>.
+    /// cref="IEnumerable{TElement}"/> using selector parameters.
     /// </summary>
-    /// <typeparam name="TElement">Type of the elements in the enumerable source.</typeparam>
-    /// <param name="source">The enumerable source.</param>
-    /// <param name="elementSelector">A function that returns both key and value.</param>
-    /// <returns>A new <see cref="List{T}"/> containing the data from <paramref name="source"/>.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="elementSelector"/> is null.</exception>
+    /// <typeparam name="TElement">Type of elements in the source.</typeparam>
+    /// <returns>A new <see cref="NameValueCollection"/> with the mapped data.</returns>
+    /// <exception cref="ArgumentNullException" />
     public static NameValueCollection ToNameValueCollection<TElement>(
         this IEnumerable<TElement> source,
-        Func<TElement, (string key, string value)> elementSelector)
+        Func<TElement, string> keySelector,
+        Func<TElement, string> valueSelector,
+        IEqualityComparer equalityComparer)
     {
         ArgumentNullException.ThrowIfNull(source, nameof(source));
-        ArgumentNullException.ThrowIfNull(elementSelector, nameof(elementSelector));
+        ArgumentNullException.ThrowIfNull(keySelector, nameof(keySelector));
+        ArgumentNullException.ThrowIfNull(valueSelector, nameof(valueSelector));
+        ArgumentNullException.ThrowIfNull(source, nameof(equalityComparer));
 
-        var collection = new NameValueCollection();
+        var collection = new NameValueCollection(equalityComparer);
         foreach (var element in source)
         {
-            var (key, value) = elementSelector(element);
-            collection.Add(key, value);
+            collection.Add(keySelector(element), valueSelector(element));
         }
         return collection;
     }
 
-    #endregion
+    /// <summary>
+    /// Creates a new <see cref="NameValueCollection"/> from pattern tuples.
+    /// </summary>
+    /// <returns>A new <see cref="NameValueCollection"/> with the mapped data.</returns>
+    /// <exception cref="ArgumentNullException" />
+    public static NameValueCollection ToNameValueCollection(
+        this IEnumerable<(string, string)> source)
+    {
+        ArgumentNullException.ThrowIfNull(source, nameof(source));
+
+        var collection = new NameValueCollection();
+        foreach (var item in source)
+        {
+            collection.Add(item.Item1, item.Item2);
+        }
+        return collection;
+    }
+
+    /// <summary>
+    /// Creates a new <see cref="NameValueCollection"/> from pattern tuples.
+    /// </summary>
+    /// <returns>A new <see cref="NameValueCollection"/> with the mapped data.</returns>
+    /// <exception cref="ArgumentNullException" />
+    public static NameValueCollection ToNameValueCollection(
+        this IEnumerable<(string, string)> source,
+        IEqualityComparer? equalityComparer)
+    {
+        ArgumentNullException.ThrowIfNull(source, nameof(source));
+        ArgumentNullException.ThrowIfNull(source, nameof(equalityComparer));
+
+        var collection = new NameValueCollection(equalityComparer);
+        foreach (var item in source)
+        {
+            collection.Add(item.Item1, item.Item2);
+        }
+        return collection;
+    }
 }
