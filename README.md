@@ -2,8 +2,6 @@
 
 Specialized collection extension methods for .NET 10.
 
-[![NuGet](https://img.shields.io/nuget/v/Collections.Specialized.Extensions.svg)](https://www.nuget.org/packages/Collections.Specialized.Extensions)
-
 ## Installation
 
 ```bash
@@ -12,13 +10,14 @@ dotnet add package Collections.Specialized.Extensions
 
 ## Features
 
-- **NameValueCollectionExtensions** - Convert any collection to a NameValueCollection
-- **ToStringExtensions** - Add convenient ToString() overloads for specialized collections
-- **ToOrderedDictionaryExtensions** - Create ordered dictionaries from various source types
-- **ToSortedDictionaryExtensions** - Sort collections by key or value
-- **ToSortedListExtensions** - Sort collections in various ways
-- **ToSortedSetExtensions** - Sort collections into a SortedSet
-- **ToKeyedCollectionExtensions** - Create keyed collections from any collection
+- **KeyedCollectionExtensions** - Convert any collection to KeyedCollection with ToKeyedCollection
+- **LinkedListExtensionsExtensions** - Convert any collection to LinkedList with ToLinkedList
+- **NameValueCollectionExtensions** - Convert any collection to NameValueCollection with ToNameValueCollection
+- **ObservableCollectionExtensions** - Convert any collection to ObservableCollection with ToObservableCollection
+- **OrderedDictionaryExtensions** - Convert any collection to OrderedDictionary with ToOrderedDictionary
+- **SortedDictionaryExtensions** - Convert any collection to SortedDictionary with ToSortedDictionary
+- **SortedListExtensions** - Convert any collection to SortedList with ToSortedList
+- **SortedSetExtensions** - Convert any collection to Sortedset with ToSortedSet
 
 ## Usage
 
@@ -41,4 +40,4 @@ var sorted3 = items.ToSortedSet(item => item.SortKey);
 
 ## License
 
-MIT License - See [LICENSE](../LICENSE)
+MIT License - See [LICENSE](LICENSE)
