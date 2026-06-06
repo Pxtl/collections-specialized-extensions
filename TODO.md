@@ -1,24 +1,32 @@
 # TODO
 
-## Create more Extension classes for constructing full IDictionary and IList collections
-These will require the full gamut of overloads for the extension method.
+## DONE
 
-These 3 will need overloads that take `IComparer<T>` parameters:
+### Create Sorted Extension Methods
 
-- `ToSortedDictionary<TKey, TValue>`
-- `ToSortedList<T>`
-- `ToSortedSet<T>`
+These 3 have overloads that take `IComparer<T>` parameters:
 
-- each `IDictionary` class extension will have appropriate counterparts to
-  Enumerable.ToDictionary such as ToSortedDictionary, etc.
-  - (see https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.todictionary?view=net-10.0) (for IDictionary classes)
+- `ToSortedDictionary<TKey, TValue>` ✓
+- `ToSortedList<TKey, TValue>` ✓
+- `ToSortedSet<T>` ✓
 
-- each IList class extension will have appropriate counterparts to Enumerable.ToList such as ToSortedList, ToLinkedList, etc.
-  - (see https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.tolist?view=net-10.0)
+### LambdaKeyedCollection
 
-Create unit tests for each extension method.
+New subclass of KeyedCollection that takes a `keySelector` delegate as a
+constructor parameter. Created class `KeyedCollectionExtensions` method
+`ToKeyedCollection<TKey, TElement>` as another extension method to construct
+this LambdaKeyedCollection. ✓
 
-## LambdaKeyedCollection
-A new subclass of KeyCollection that takes a `keySelector` delegate as a
-constructor parameter.  Create `ToKeyedCollection<TKey, TElement>` as another
-extension method to construct this LambdaKeyedCollection.
+### Test Coverage
+
+Created unit tests for each extension method using FluentAssertions. ✓
+
+## Done
+
+All sorted collection extension methods complete:
+- ToSortedDictionary<TKey, TValue> with IComparer<T> overloads
+- ToSortedList<TKey, TValue> with IComparer<T> overloads  
+- ToSortedSet<T> with IComparer<T> overloads
+- ToKeyedCollection<TKey, TElement>
+
+All unit tests passing (24 tests).
