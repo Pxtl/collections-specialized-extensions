@@ -19,8 +19,8 @@ on:
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
     if: github.event.workflow_run.conclusion == 'success' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -37,21 +37,11 @@ jobs:
 
       - name: Build NuGet package
         run: dotnet pack CollectionsSpecializedExtensions.slnx --configuration Release --output ./nuget
-        env:
-          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
 
-      - name: Publish package to NuGet.org
-        uses: NuGet/nuget-publish-github-packages@v1
-        with:
-          packages-directory: './nuget'
-          nucleus-url: https://www.myget.org/F/nuget-temp/v3/index.json
-          nucleus-authentication: true
-        continue-on-error: true
-
-      - name: Publish to NuGet.org (official)
+      - name: Publish to NuGet.org
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
           if [ $? -eq 0 ]; then
-            dotnet nuget push nuget/*.nupkg --api-key "${{ secrets.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+            dotnet nuget push nuget/*.nupkg --api-key "${{ secrets.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate --verbosity normal
           fi
