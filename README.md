@@ -34,8 +34,8 @@ var collection = new[] {
 
 ```csharp
 var sorted = items.ToSortedDictionary(item => item.Key, item => item.Value);
-var sorted2 = items.ToSortedList<T>(item => item.Score);
-var sorted3 = items.ToSortedSet(item => item.SortKey);
+var sorted2 = items.ToSortedList(item => item.Key, item => item.Value);
+var sorted3 = items.ToSortedSet();
 ```
 
 ## License
