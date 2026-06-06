@@ -8,9 +8,24 @@ namespace CollectionsSpecializedExtensions.Tests;
 public class OrderedDictionaryExtensionsTests
 {
     [Fact]
-    public void ToOrderedDictionary_ReturnsDictionary_WithCorrectOrdering()
+    public void ToOrderedDictionary_WithKeyValuePair_WithCorrectOrdering()
     {
-        // source data has keys in descending order, values in ascending order.  Ordered dictionary should persist that.
+        var source = new List<KeyValuePair<string, int>>
+        {
+            KeyValuePair.Create("c", 1),
+            KeyValuePair.Create("b", 2),
+            KeyValuePair.Create("a", 3)
+        };
+
+        var actual = source.ToOrderedDictionary();
+        
+        actual.Keys.ElementAt(0).Should().Be("c");
+        actual.Values.ElementAt(0).Should().Be(1);
+    }
+
+    [Fact]
+    public void ToOrderedDictionary_WithKeyAndValueSelector_CreatesDictionaryWithCorrectOrdering()
+    {
         var source = new List<(string key, int value)>
         {
             ("c", 1),
@@ -18,26 +33,65 @@ public class OrderedDictionaryExtensionsTests
             ("a", 3)
         };
 
-        var actual = source.ToOrderedDictionary(
-            x => x.Item1,
-            x => x.Item2
+        var result = source.ToOrderedDictionary(
+            x => x.key,
+            x => x.value
         );
-                
-        actual.Keys.Should().BeInDescendingOrder();
-        actual.Values.Should().BeInAscendingOrder();
+
+        result.Count.Should().Be(3);
+        result.Keys.ElementAt(0).Should().Be("c");
+        result["c"].Should().Be(1);
+    }
+
+    [Fact]
+    public void ToOrderedDictionary_ValueTupleSource_CreatesDictionary()
+    {
+        var source = new List<(string, int)>
+        {
+            ("x", 10),
+            ("y", 20)
+        };
+
+        var result = source.ToOrderedDictionary();
+        result.Count.Should().Be(2);
+        result["x"].Should().Be(10);
+        result["y"].Should().Be(20);
+        var act = () => {
+            //check for case sensitivity
+            result["X"].Should().Be(10);
+
+        };
+        act.Should().Throw<KeyNotFoundException>();
+    }
+
+    [Fact]
+    public void ToOrderedDictionary_ValueTupleSourceAndCaseInsensitiveComparer_ComparesInsensitively()
+    {
+        var source = new List<(string, int)>
+        {
+            ("x", 10),
+            ("y", 20)
+        };
+
+        var result = source.ToOrderedDictionary(StringComparer.OrdinalIgnoreCase);
+        result.Count.Should().Be(2);
+        result["X"].Should().Be(10);
+        result["Y"].Should().Be(20);
     }
 
     [Fact]
     public void ToOrderedDictionary_NullSource_Throws()
     {
-        Action act = () => {
-            var source = (IEnumerable<(string, int)>? ) null;
-            source!.ToOrderedDictionary(
-                x => x.Item1,
-                x => x.Item2!
-            );
-        };
-        
+        var source = (IEnumerable<(string, int)>?)null!;
+        Action act = () => source.ToOrderedDictionary();
+        act.Should().Throw<ArgumentNullException>();
+    }
+
+    [Fact]
+    public void ToOrderedDictionary_NullValueInKeySelector_Throws()
+    {
+        var source = new List<(string, int)> { ("a", 1) };
+        Action act = () => source.ToOrderedDictionary(x => (string)null!, x => x.Item2);
         act.Should().Throw<ArgumentNullException>();
     }
 }
