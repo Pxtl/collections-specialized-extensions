@@ -10,9 +10,9 @@ namespace CollectionsSpecializedExtensions;
 public static class SortedDictionaryExtensions
 {
     /// <summary>
-    /// Creates a new <see langword="SortedDictionary"/> from an <see langword="IEnumerable"/> source.
+    /// Creates a new <see cref="SortedDictionary{TKey, TValue}"/> from an <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/> source.
     /// </summary>
-    /// <returns>A new <see langword="SortedDictionary"/> with the mapped data.</returns>
+    /// <returns>A new <see cref="SortedDictionary{TKey, TValue}"/> with the mapped data.</returns>
     /// <exception cref="ArgumentNullException"/>
     public static SortedDictionary<TKey, TValue> ToSortedDictionary<TKey, TValue>(
         this IEnumerable<KeyValuePair<TKey, TValue>> source)
@@ -28,9 +28,9 @@ public static class SortedDictionaryExtensions
     }
 
     /// <summary>
-    /// Creates a new <see langword="SortedDictionary"/> from an <see langword="IEnumerable"/> source.
+    /// Creates a new <see cref="SortedDictionary{TKey, TValue}"/> from an <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/> source.
     /// </summary>
-    /// <returns>A new <see langword="SortedDictionary"/> with the mapped data.</returns>
+    /// <returns>A new <see cref="SortedDictionary{TKey, TValue}"/> with the mapped data.</returns>
     /// <exception cref="ArgumentNullException"/>
     public static SortedDictionary<TKey, TValue> ToSortedDictionary<TKey, TValue>(
         this IEnumerable<KeyValuePair<TKey, TValue>> source,
@@ -38,7 +38,7 @@ public static class SortedDictionaryExtensions
         where TKey : notnull
     {
         ArgumentNullException.ThrowIfNull(source, nameof(source));
-        ArgumentNullException.ThrowIfNull(source, nameof(comparer));
+        ArgumentNullException.ThrowIfNull(comparer, nameof(comparer));
         var sortedDict = new SortedDictionary<TKey, TValue>(comparer);
         foreach (var item in source)
         {
@@ -48,11 +48,11 @@ public static class SortedDictionaryExtensions
     }
 
     /// <summary>
-    /// Creates a new <see langword="SortedDictionary"/> from an <see langword="IEnumerable"/>.
+    /// Creates a new <see cref="SortedDictionary{TKey, TValue}"/> from an <see cref="IEnumerable{TSource}"/>.
     /// </summary>
     /// <typeparam name="TSource">Type of elements in the source.</typeparam>
     /// <typeparam name="TKey">Type of keys.</typeparam>
-    /// <returns>A new <see langword="SortedDictionary"/> with the mapped data.</returns>
+    /// <returns>A new <see cref="SortedDictionary{TKey, TValue}"/> with the mapped data.</returns>
     /// <exception cref="ArgumentNullException"/>
     public static SortedDictionary<TKey, TSource> ToSortedDictionary<TKey, TSource>(
         this IEnumerable<TSource> source,
@@ -71,11 +71,11 @@ public static class SortedDictionaryExtensions
     }
 
     /// <summary>
-    /// Creates a new <see langword="SortedDictionary"/> from an <see langword="IEnumerable"/>.
+    /// Creates a new <see cref="SortedDictionary{TKey, TValue}"/> from an <see cref="IEnumerable{TSource}"/>.
     /// </summary>
     /// <typeparam name="TSource">Type of elements in the source.</typeparam>
     /// <typeparam name="TKey">Type of keys.</typeparam>
-    /// <returns>A new <see langword="SortedDictionary"/> with the mapped data.</returns>
+    /// <returns>A new <see cref="SortedDictionary{TKey, TValue}"/> with the mapped data.</returns>
     /// <exception cref="ArgumentNullException"/>
     public static SortedDictionary<TKey, TSource> ToSortedDictionary<TKey, TSource>(
         this IEnumerable<TSource> source,
@@ -85,7 +85,7 @@ public static class SortedDictionaryExtensions
     {
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(keySelector, nameof(keySelector));
-        ArgumentNullException.ThrowIfNull(source, nameof(comparer));
+        ArgumentNullException.ThrowIfNull(comparer, nameof(comparer));
 
         var dictionary = new SortedDictionary<TKey, TSource>(comparer);
         foreach (var element in source)
@@ -96,9 +96,9 @@ public static class SortedDictionaryExtensions
     }
 
     /// <summary>
-    /// Creates a new <see langword="SortedDictionary"/> with key and value selectors.
+    /// Creates a new <see cref="SortedDictionary{TKey, TValue}"/> with key and value selectors.
     /// </summary>
-    /// <returns>A new <see langword="SortedDictionary"/> with the key-selector and value-selector mapped data.</returns>
+    /// <returns>A new <see cref="SortedDictionary{TKey, TValue}"/> with the key-selector and value-selector mapped data.</returns>
     /// <exception cref="ArgumentNullException"/>
     /// <param name="keySelector">A selector for keys.</param>
     /// <param name="valueSelector">A selector for values.</param>
@@ -123,9 +123,38 @@ public static class SortedDictionaryExtensions
     }
 
     /// <summary>
-    /// Creates a new <see langword="SortedDictionary"/> from an <see langword="IEnumerable"/> of tuples.
+    /// Creates a new <see cref="SortedDictionary{TKey, TValue}"/> with key and value selectors.
     /// </summary>
-    /// <returns>A new <see langword="SortedDictionary"/> with the mapped data.</returns>
+    /// <returns>A new <see cref="SortedDictionary{TKey, TValue}"/> with the key-selector and value-selector mapped data.</returns>
+    /// <exception cref="ArgumentNullException"/>
+    /// <param name="keySelector">A selector for keys.</param>
+    /// <param name="valueSelector">A selector for values.</param>
+    public static SortedDictionary<TKey, TValue> ToSortedDictionary<TSource, TKey, TValue>(
+        this IEnumerable<TSource> source,
+        Func<TSource, TKey> keySelector,
+        Func<TSource, TValue> valueSelector,
+        IComparer<TKey> comparer)
+        where TKey : notnull
+    {
+        ArgumentNullException.ThrowIfNull(source, nameof(source));
+        ArgumentNullException.ThrowIfNull(keySelector, nameof(keySelector));
+        ArgumentNullException.ThrowIfNull(valueSelector, nameof(valueSelector));
+        ArgumentNullException.ThrowIfNull(comparer, nameof(comparer));
+
+        var dictionary = new SortedDictionary<TKey, TValue>();
+        foreach (var element in source)
+        {
+            var key = keySelector(element);
+            var value = valueSelector(element);
+            dictionary[key] = value;
+        }
+        return dictionary;
+    }
+
+    /// <summary>
+    /// Creates a new <see cref="SortedDictionary{TKey, TValue}"/> from an <see cref="IEnumerable{T}"/> of <see cref="ValueTuple{TKey, TValue}"/>.
+    /// </summary>
+    /// <returns>A new <see cref="SortedDictionary{TKey, TValue}"/> with the mapped data.</returns>
     /// <exception cref="ArgumentNullException">The <paramref name="source"/> is null.</exception>
     public static SortedDictionary<TKey, TValue> ToSortedDictionary<TKey, TValue>(
         this IEnumerable<(TKey, TValue)> source)
@@ -142,9 +171,9 @@ public static class SortedDictionaryExtensions
     }
 
     /// <summary>
-    /// Creates a new <see langword="SortedDictionary"/> from an <see langword="IEnumerable"/> of tuples.
+    /// Creates a new <see cref="SortedDictionary{TKey, TValue}"/> from an <see cref="IEnumerable{T}"/> of <see cref="ValueTuple{TKey, TValue}"/>.
     /// </summary>
-    /// <returns>A new <see langword="SortedDictionary"/> with the mapped data.</returns>
+    /// <returns>A new <see cref="SortedDictionary{TKey, TValue}"/> with the mapped data.</returns>
     /// <exception cref="ArgumentNullException">The <paramref name="source"/> is null.</exception>
     public static SortedDictionary<TKey, TValue> ToSortedDictionary<TKey, TValue>(
         this IEnumerable<(TKey, TValue)> source,
@@ -152,7 +181,7 @@ public static class SortedDictionaryExtensions
         where TKey : notnull
     {
         ArgumentNullException.ThrowIfNull(source, nameof(source));
-        ArgumentNullException.ThrowIfNull(source, nameof(comparer));
+        ArgumentNullException.ThrowIfNull(comparer, nameof(comparer));
 
         var dictionary = new SortedDictionary<TKey, TValue>(comparer);
         foreach (var element in source)
