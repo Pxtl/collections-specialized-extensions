@@ -158,6 +158,266 @@ public static class LinkedListExtensions
 }
 ```
 
+### SortedListExtensions
+
+#### Dictionary Source
+
+```csharp
+var dictionary = new[] { 
+    new("c", 3), 
+    new("a", 1), 
+    new("b", 2), 
+    new("d", 4) 
+}.ToSortedList();
+```
+
+#### With Key and Value Selectors
+
+```csharp
+var list = items.ToSortedList(
+    item => item.Name,
+    item => item.Value
+);
+```
+
+#### With Comparer
+
+```csharp
+var list = items.ToSortedList(
+    item => item.Name,
+    item => item.Id,
+    StringComparer.Ordinal
+);
+```
+
+**API:**
+
+```csharp
+public static class SortedListExtensions
+{
+    /// <summary>
+    /// Creates SortedList from IEnumerable&lt;KeyValuePair&lt;TKey, TValue&gt;&gt;
+    /// </summary>
+    /// <param name="source">IEnumerable&lt;KeyValuePair&lt;TKey, TValue&gt;&gt; source</param>
+    /// <returns>SortedList</returns>
+    public static SortedList<TKey, TValue> ToSortedList<TKey, TValue>(
+        this IEnumerable<KeyValuePair<TKey, TValue>> source)
+        where TKey : notnull;
+
+    /// <summary>
+    /// Creates SortedList from IEnumerable&lt;KeyValuePair&lt;TKey, TValue&gt;&gt; with custom comparer
+    /// </summary>
+    /// <param name="source">IEnumerable&lt;KeyValuePair&lt;TKey, TValue&gt;&gt; source</param>
+    /// <param name="comparer">IComparer&lt;TKey&gt; for sorting keys</param>
+    /// <returns>SortedList</returns>
+    public static SortedList<TKey, TValue> ToSortedList<TKey, TValue>(
+        this IEnumerable<KeyValuePair<TKey, TValue>> source,
+        IComparer<TKey> comparer)
+        where TKey : notnull;
+
+    /// <summary>
+    /// Creates SortedList from IEnumerable with selector params
+    /// </summary>
+    /// <param name="source">IEnumerable source</param>
+    /// <param name="keySelector">Key selector function</param>
+    /// <param name="valueSelector">Value selector function</param>
+    /// <returns>SortedList</returns>
+    public static SortedList<TKey, TValue> ToSortedList<TSource, TKey, TValue>(
+        this IEnumerable<TSource> source,
+        Func<TSource, TKey> keySelector,
+        Func<TSource, TValue> valueSelector)
+        where TKey : notnull;
+
+    /// <summary>
+    /// Creates SortedList from IEnumerable with selector params and custom comparer
+    /// </summary>
+    /// <param name="source">IEnumerable source</param>
+    /// <param name="keySelector">Key selector function</param>
+    /// <param name="valueSelector">Value selector function</param>
+    /// <param name="comparer">IComparer&lt;TKey&gt; for sorting keys</param>
+    /// <returns>SortedList</returns>
+    public static SortedList<TKey, TValue> ToSortedList<TSource, TKey, TValue>(
+        this IEnumerable<TSource> source,
+        Func<TSource, TKey> keySelector,
+        Func<TSource, TValue> valueSelector,
+        IComparer<TKey> comparer)
+        where TKey : notnull;
+}
+```
+
+### SortedSetExtensions
+
+#### Basic
+
+```csharp
+var set = items.ToSortedSet();
+```
+
+#### With Comparer
+
+```csharp
+var set = items.ToSortedSet(
+    new IntComparer()
+);
+```
+
+**API:**
+
+```csharp
+public static class SortedSetExtensions
+{
+    /// <summary>
+    /// Creates SortedSet from IEnumerable
+    /// </summary>
+    /// <param name="source">IEnumerable source</param>
+    /// <returns>SortedSet</returns>
+    public static SortedSet<T> ToSortedSet<T>(
+        this IEnumerable<T> source);
+
+    /// <summary>
+    /// Creates SortedSet from IEnumerable with custom comparer
+    /// </summary>
+    /// <param name="source">IEnumerable source</param>
+    /// <param name="comparer">IComparer&lt;T&gt; for sorting</param>
+    /// <returns>SortedSet</returns>
+    public static SortedSet<T> ToSortedSet<T>(
+        this IEnumerable<T> source,
+        IComparer<T> comparer)
+        where T : notnull;
+}
+```
+
+### SortedDictionaryExtensions
+
+#### Dictionary Source
+
+```csharp
+var dictionary = new[] { 
+    new("c", 3), 
+    new("a", 1), 
+    new("b", 2) 
+}.ToSortedDictionary();
+```
+
+#### With Selector
+
+```csharp
+var dictionary = items.ToSortedDictionary(
+    item => item.Id
+);
+```
+
+#### With Selector and Comparer
+
+```csharp
+var dictionary = items.ToSortedDictionary(
+    item => item.Id,
+    item => item.Value,
+    StringComparer.Ordinal
+);
+```
+
+**API:**
+
+```csharp
+public static class SortedDictionaryExtensions
+{
+    /// <summary>
+    /// Creates SortedDictionary from IEnumerable&lt;KeyValuePair&lt;TKey, TValue&gt;&gt;
+    /// </summary>
+    /// <param name="source">IEnumerable&lt;KeyValuePair&lt;TKey, TValue&gt;&gt; source</param>
+    /// <returns>SortedDictionary</returns>
+    public static SortedDictionary<TKey, TValue> ToSortedDictionary<TKey, TValue>(
+        this IEnumerable<KeyValuePair<TKey, TValue>> source)
+        where TKey : notnull, IEquatable<TKey>;
+
+    /// <summary>
+    /// Creates SortedDictionary from IEnumerable&lt;KeyValuePair&lt;TKey, TValue&gt;&gt; with custom comparer
+    /// </summary>
+    /// <param name="source">IEnumerable&lt;KeyValuePair&lt;TKey, TValue&gt;&gt; source</param>
+    /// <param name="comparer">IComparer&lt;TKey&gt; for sorting keys</param>
+    /// <returns>SortedDictionary</returns>
+    public static SortedDictionary<TKey, TValue> ToSortedDictionary<TKey, TValue>(
+        this IEnumerable<KeyValuePair<TKey, TValue>> source,
+        IComparer<TKey> comparer)
+        where TKey : notnull, IEquatable<TKey>;
+
+    /// <summary>
+    /// Creates SortedDictionary from IEnumerable with key selector
+    /// </summary>
+    /// <param name="source">IEnumerable source</param>
+    /// <param name="keySelector">Key selector function</param>
+    /// <returns>SortedDictionary</returns>
+    public static SortedDictionary<TKey, TSource> ToSortedDictionary<TSource, TKey>(
+        this IEnumerable<TSource> source,
+        Func<TSource, TKey> keySelector)
+        where TKey : notnull, IEquatable<TKey>;
+
+    /// <summary>
+    /// Creates SortedDictionary from IEnumerable with key and value selectors and custom comparer
+    /// </summary>
+    /// <param name="source">IEnumerable source</param>
+    /// <param name="keySelector">Key selector function</param>
+    /// <param name="valueSelector">Value selector function</param>
+    /// <param name="comparer">IComparer&lt;TKey&gt; for sorting keys</param>
+    /// <returns>SortedDictionary</returns>
+    public static SortedDictionary<TKey, TValue> ToSortedDictionary<TSource, TKey, TValue>(
+        this IEnumerable<TSource> source,
+        Func<TSource, TKey> keySelector,
+        Func<TSource, TValue> valueSelector,
+        IComparer<TKey> comparer)
+        where TKey : notnull, IEquatable<TKey>;
+}
+```
+
+### KeyedCollectionExtensions
+
+#### Basic Selector
+
+```csharp
+var collection = items.ToKeyedCollection(item => item.Name);
+```
+
+#### With Comparer
+
+```csharp
+var collection = items.ToKeyedCollection(
+    item => item.Name,
+    new CaseInsensitiveStringComparer()
+);
+```
+
+**API:**
+
+```csharp
+public static class KeyedCollectionExtensions
+{
+    /// <summary>
+    /// Creates KeyedCollection from IEnumerable with selector
+    /// </summary>
+    /// <param name="source">IEnumerable source</param>
+    /// <param name="keySelector">Key selector function</param>
+    /// <returns>KeyedCollection</returns>
+    public static KeyedCollection<TKey, T> ToKeyedCollection<T, TKey>(
+        this IEnumerable<T> source,
+        Func<T, TKey> keySelector)
+        where TKey : notnull;
+
+    /// <summary>
+    /// Creates KeyedCollection from IEnumerable with selector and comparer
+    /// </summary>
+    /// <param name="source">IEnumerable source</param>
+    /// <param name="keySelector">Key selector function</param>
+    /// <param name="comparer">IEqualityComparer&lt;TKey&gt; for comparing keys</param>
+    /// <returns>KeyedCollection</returns>
+    public static KeyedCollection<TKey, T> ToKeyedCollection<T, TKey>(
+        this IEnumerable<T> source,
+        Func<T, TKey> keySelector,
+        IEqualityComparer<TKey> comparer)
+        where TKey : notnull;
+}
+```
+
 ## Test File Organization
 
 | Test File | Tests Description |
@@ -166,6 +426,9 @@ public static class LinkedListExtensions
 | NameValueCollectionExtensionsTests.cs | Tests for ToNameValueCollection overloads |
 | LinkedListExtensionsTest.cs | Tests for ToLinkedList |
 | ObservableCollectionExtensionsTest.cs | Tests for ToObservableCollection |
+| SortedListExtensionsTest.cs | Tests for ToSortedList overloads |
+| SortedSetExtensionsTest.cs | Tests for ToSortedSet overloads |
+| KeyedCollectionExtensionsTest.cs | Tests for ToKeyedCollection |
 
 ## License
 
