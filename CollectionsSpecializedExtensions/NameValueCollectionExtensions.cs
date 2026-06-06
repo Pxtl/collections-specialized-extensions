@@ -50,7 +50,7 @@ public static class NameValueCollectionExtensions
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(keySelector, nameof(keySelector));
         ArgumentNullException.ThrowIfNull(valueSelector, nameof(valueSelector));
-        ArgumentNullException.ThrowIfNull(source, nameof(equalityComparer));
+        ArgumentNullException.ThrowIfNull(equalityComparer, nameof(equalityComparer));
 
         var collection = new NameValueCollection(equalityComparer);
         foreach (var element in source)
@@ -88,7 +88,7 @@ public static class NameValueCollectionExtensions
         IEqualityComparer? equalityComparer)
     {
         ArgumentNullException.ThrowIfNull(source, nameof(source));
-        ArgumentNullException.ThrowIfNull(source, nameof(equalityComparer));
+        ArgumentNullException.ThrowIfNull(equalityComparer, nameof(equalityComparer));
 
         var collection = new NameValueCollection(equalityComparer);
         foreach (var item in source)

@@ -32,7 +32,7 @@ public static class OrderedDictionaryExtensions
         where TKey : notnull
     {
         ArgumentNullException.ThrowIfNull(source, nameof(source));
-        ArgumentNullException.ThrowIfNull(source, nameof(equalityComparer));
+        ArgumentNullException.ThrowIfNull(equalityComparer, nameof(equalityComparer));
         return new OrderedDictionary<TKey, TValue>(source, equalityComparer);
     }
 
@@ -79,7 +79,7 @@ public static class OrderedDictionaryExtensions
     {
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(keySelector, nameof(keySelector));
-        ArgumentNullException.ThrowIfNull(source, nameof(equalityComparer));
+        ArgumentNullException.ThrowIfNull(equalityComparer, nameof(equalityComparer));
 
         var dictionary = new OrderedDictionary<TKey, TSource>(equalityComparer);
         foreach (var element in source)
@@ -142,7 +142,7 @@ public static class OrderedDictionaryExtensions
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(keySelector, nameof(keySelector));
         ArgumentNullException.ThrowIfNull(valueSelector, nameof(valueSelector));
-        ArgumentNullException.ThrowIfNull(source, nameof(equalityComparer));
+        ArgumentNullException.ThrowIfNull(equalityComparer, nameof(equalityComparer));
 
         var dictionary = new OrderedDictionary<TKey, TValue>(equalityComparer);
         foreach (var element in source)
@@ -187,7 +187,7 @@ public static class OrderedDictionaryExtensions
         where TKey : notnull
     {
         ArgumentNullException.ThrowIfNull(source, nameof(source));
-        ArgumentNullException.ThrowIfNull(source, nameof(equalityComparer));
+        ArgumentNullException.ThrowIfNull(equalityComparer, nameof(equalityComparer));
 
         var dictionary = new OrderedDictionary<TKey, TValue>(equalityComparer);
         foreach (var item in source)
