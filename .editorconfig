@@ -1,0 +1,13 @@
+root = true
+
+[*.cs]
+indent_size = 4
+indent_style = space
+
+[csharp_files:*]
+dotnet_diagnostic.cs1584.severity = warning
+dotnet_diagnostic.cs1658.severity = warning
+dotnet_diagnostic.cs1711.severity = warning
+dotnet_diagnostic.cs1712.severity = warning
+dotnet_diagnostic.cs1573.severity = warning
+

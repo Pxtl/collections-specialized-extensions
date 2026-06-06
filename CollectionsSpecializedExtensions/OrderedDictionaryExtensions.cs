@@ -3,18 +3,14 @@ namespace CollectionsSpecializedExtensions;
 /// <summary>
 /// Extension methods for <see cref="OrderedDictionary{TKey,TValue}"/>.
 /// </summary>
-/// <remarks>
-/// Provides LINQ-like extension methods to create <see cref="OrderedDictionary{TKey,TValue}"/> from
-/// enumerable sources using custom selector functions and pattern tuples.
-/// </remarks>
 public static class OrderedDictionaryExtensions
 {
     /// <summary>
-    /// Creates a new <see cref="OrderedDictionary{TKey, TValue}"/> from an <see
-    /// cref="IEnumerable{KeyValuePair{TKey, TValue}}"/> source.
+    /// Creates a new <see cref="OrderedDictionary{TKey, TValue}"/> from an <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/> source.
     /// </summary>
+    /// <param name="source">The enumerable source.</param>
     /// <returns>A new <see cref="OrderedDictionary{TKey, TValue}"/> with the mapped data.</returns>
-    /// <exception cref="ArgumentNullException" />
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
     public static OrderedDictionary<TKey, TValue> ToOrderedDictionary<TKey, TValue>(
         this IEnumerable<KeyValuePair<TKey, TValue>> source)
         where TKey : notnull
@@ -24,11 +20,12 @@ public static class OrderedDictionaryExtensions
     }
 
     /// <summary>
-    /// Creates a new <see cref="OrderedDictionary{TKey, TValue}"/> from an <see
-    /// cref="IEnumerable{KeyValuePair{TKey, TValue}}"/> source.
+    /// Creates a new <see cref="OrderedDictionary{TKey, TValue}"/> from an <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/> source.
     /// </summary>
+    /// <param name="source">The enumerable source.</param>
+    /// <param name="equalityComparer">The equality comparer.</param>
     /// <returns>A new <see cref="OrderedDictionary{TKey, TValue}"/> with the mapped data.</returns>
-    /// <exception cref="ArgumentNullException" />
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="equalityComparer"/> is null.</exception>
     public static OrderedDictionary<TKey, TValue> ToOrderedDictionary<TKey, TValue>(
         this IEnumerable<KeyValuePair<TKey, TValue>> source,
         IEqualityComparer<TKey> equalityComparer)
@@ -39,15 +36,15 @@ public static class OrderedDictionaryExtensions
         return new OrderedDictionary<TKey, TValue>(source, equalityComparer);
     }
 
-
     /// <summary>
-    /// Creates a new <see cref="OrderedDictionary{TKey, TValue}"/> from an <see
-    /// cref="IEnumerable{TSource}"/> using key selector and element-to-value identity mapping.
+    /// Creates a new <see cref="OrderedDictionary{TKey, TSource}"/> from an <see cref="IEnumerable{TSource}"/>.
     /// </summary>
+    /// <param name="source">The enumerable source.</param>
+    /// <param name="keySelector">A selector for keys.</param>
     /// <typeparam name="TSource">Type of elements in the source.</typeparam>
     /// <typeparam name="TKey">Type of keys.</typeparam>
-    /// <returns>A new <see cref="OrderedDictionary{TKey, TKey}"/> with the mapped data.</returns>
-    /// <exception cref="ArgumentNullException" />
+    /// <returns>A new <see cref="OrderedDictionary{TKey, TSource}"/> with the mapped data.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> is null.</exception>
     public static OrderedDictionary<TKey, TSource> ToOrderedDictionary<TKey, TSource>(
         this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector)
@@ -65,13 +62,15 @@ public static class OrderedDictionaryExtensions
     }
 
     /// <summary>
-    /// Creates a new <see cref="OrderedDictionary{TKey, TValue}"/> from an <see
-    /// cref="IEnumerable{TSource}"/> using key selector and element-to-value identity mapping.
+    /// Creates a new <see cref="OrderedDictionary{TKey, TSource}"/> from an <see cref="IEnumerable{TSource}"/>.
     /// </summary>
+    /// <param name="source">The enumerable source.</param>
+    /// <param name="keySelector">A selector for keys.</param>
+    /// <param name="equalityComparer">The equality comparer.</param>
     /// <typeparam name="TSource">Type of elements in the source.</typeparam>
     /// <typeparam name="TKey">Type of keys.</typeparam>
-    /// <returns>A new <see cref="OrderedDictionary{TKey, TKey}"/> with the mapped data.</returns>
-    /// <exception cref="ArgumentNullException" />
+    /// <returns>A new <see cref="OrderedDictionary{TKey, TSource}"/> with the mapped data.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/>, <paramref name="keySelector"/>, or <paramref name="equalityComparer"/> is null.</exception>
     public static OrderedDictionary<TKey, TSource> ToOrderedDictionary<TKey, TSource>(
         this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector,
@@ -93,11 +92,14 @@ public static class OrderedDictionaryExtensions
     /// <summary>
     /// Creates a new <see cref="OrderedDictionary{TKey, TValue}"/> with key and value selectors.
     /// </summary>
-    /// <typeparam name="TElement">Type of elements in the source.</typeparam>
+    /// <param name="source">The enumerable source.</param>
+    /// <param name="keySelector">A selector for keys.</param>
+    /// <param name="valueSelector">A selector for values.</param>
+    /// <typeparam name="TSource">Type of elements in the source.</typeparam>
     /// <typeparam name="TKey">Type of keys.</typeparam>
     /// <typeparam name="TValue">Type of values.</typeparam>
     /// <returns>A new <see cref="OrderedDictionary{TKey, TValue}"/> with the mapped data.</returns>
-    /// <exception cref="ArgumentNullException" />
+    /// <exception cref="ArgumentNullException"><paramref name="source"/>, <paramref name="keySelector"/>, or <paramref name="valueSelector"/> is null.</exception>
     public static OrderedDictionary<TKey, TValue> ToOrderedDictionary<TSource, TKey, TValue>(
         this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector,
@@ -121,11 +123,15 @@ public static class OrderedDictionaryExtensions
     /// <summary>
     /// Creates a new <see cref="OrderedDictionary{TKey, TValue}"/> with key and value selectors.
     /// </summary>
-    /// <typeparam name="TElement">Type of elements in the source.</typeparam>
+    /// <param name="source">The enumerable source.</param>
+    /// <param name="keySelector">A selector for keys.</param>
+    /// <param name="valueSelector">A selector for values.</param>
+    /// <param name="equalityComparer">The equality comparer.</param>
+    /// <typeparam name="TSource">Type of elements in the source.</typeparam>
     /// <typeparam name="TKey">Type of keys.</typeparam>
     /// <typeparam name="TValue">Type of values.</typeparam>
     /// <returns>A new <see cref="OrderedDictionary{TKey, TValue}"/> with the mapped data.</returns>
-    /// <exception cref="ArgumentNullException" />
+    /// <exception cref="ArgumentNullException"><paramref name="source"/>, <paramref name="keySelector"/>, <paramref name="valueSelector"/>, or <paramref name="equalityComparer"/> is null.</exception>
     public static OrderedDictionary<TKey, TValue> ToOrderedDictionary<TSource, TKey, TValue>(
         this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector,
@@ -149,11 +155,11 @@ public static class OrderedDictionaryExtensions
     }
 
     /// <summary>
-    /// Creates a new <see cref="OrderedDictionary{TKey, TValue}"/> from an <see
-    /// cref="IEnumerable{(TKey, TValue)}"/> pattern tuple source.
+    /// Creates a new <see cref="OrderedDictionary{TKey, TValue}"/> from an <see cref="IEnumerable{T}"/> of <see cref="ValueTuple{TKey, TValue}"/> source.
     /// </summary>
+    /// <param name="source">The enumerable source.</param>
     /// <returns>A new <see cref="OrderedDictionary{TKey, TValue}"/> with the mapped data.</returns>
-    /// <exception cref="ArgumentNullException" />
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
     public static OrderedDictionary<TKey, TValue> ToOrderedDictionary<TKey, TValue>(
         this IEnumerable<(TKey, TValue)> source)
         where TKey : notnull
@@ -169,11 +175,12 @@ public static class OrderedDictionaryExtensions
     }
 
     /// <summary>
-    /// Creates a new <see cref="OrderedDictionary{TKey, TValue}"/> from an <see
-    /// cref="IEnumerable{(TKey, TValue)}"/> pattern tuple source.
+    /// Creates a new <see cref="OrderedDictionary{TKey, TValue}"/> from an <see cref="IEnumerable{T}"/> of <see cref="ValueTuple{TKey, TValue}"/> source.
     /// </summary>
+    /// <param name="source">The enumerable source.</param>
+    /// <param name="equalityComparer">The equality comparer.</param>
     /// <returns>A new <see cref="OrderedDictionary{TKey, TValue}"/> with the mapped data.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="equalityComparer"/> is null.</exception>
     public static OrderedDictionary<TKey, TValue> ToOrderedDictionary<TKey, TValue>(
         this IEnumerable<(TKey, TValue)> source,
         IEqualityComparer<TKey> equalityComparer)
