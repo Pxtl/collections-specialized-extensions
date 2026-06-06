@@ -26,8 +26,11 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore CollectionsSpecializedExtensions.slnx
 
+      - name: Build solution
+        run: dotnet build CollectionsSpecializedExtensions.slnx --no-restore --configuration Release
+
       - name: Build NuGet package
-        run: dotnet pack CollectionsSpecializedExtensions.slnx --configuration Release --output ./nuget
+        run: dotnet pack CollectionsSpecializedExtensions.slnx --no-build --configuration Release --output ./nuget
 
       - name: Publish to NuGet.org
         env:
