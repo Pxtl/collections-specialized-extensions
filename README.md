@@ -10,6 +10,7 @@ dotnet add package Collections.Specialized.Extensions
 
 ## Features
 
+- **IDictionaryExtensions** - Convert any collection to any class implementing IDictionary with ToIDictionary and a factory function
 - **KeyedCollectionExtensions** - Convert any collection to KeyedCollection with ToKeyedCollection
 - **LinkedListExtensionsExtensions** - Convert any collection to LinkedList with ToLinkedList
 - **NameValueCollectionExtensions** - Convert any collection to NameValueCollection with ToNameValueCollection
