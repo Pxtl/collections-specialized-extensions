@@ -19,7 +19,12 @@ public static class SortedDictionaryExtensions
         where TKey : notnull
     {
         ArgumentNullException.ThrowIfNull(source, nameof(source));
-        return new SortedDictionary<TKey, TValue>(source);
+        var sortedDict = new SortedDictionary<TKey, TValue>();
+        foreach (var item in source)
+        {
+            sortedDict.Add(item.Key, item.Value);
+        }
+        return sortedDict;
     }
 
     /// <summary>
@@ -34,7 +39,12 @@ public static class SortedDictionaryExtensions
     {
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(source, nameof(comparer));
-        return new SortedDictionary<TKey, TValue>(source, comparer);
+        var sortedDict = new SortedDictionary<TKey, TValue>(comparer);
+        foreach (var item in source)
+        {
+            sortedDict.Add(item.Key, item.Value);
+        }
+        return sortedDict;
     }
 
     /// <summary>
