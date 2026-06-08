@@ -1,32 +1,10 @@
 # TODO
 
-## DONE
+- Support arbitrary IDictionary, ISet, IList colections.
 
-### Create Sorted Extension Methods
+  - `ToIDictionary<TDictionary, TKey, TValue> where TDict : new(), IDictionary<TKey,TValue>()`
+  - `ToIList<TList, TItem> where TList : new(), IList<TItem>()`
+  - `ToISet<TSet> : new(), TSet<TItem>()`
 
-These 3 have overloads that take `IComparer<T>` parameters:
-
-- `ToSortedDictionary<TKey, TValue>` ✓
-- `ToSortedList<TKey, TValue>` ✓
-- `ToSortedSet<T>` ✓
-
-### LambdaKeyedCollection
-
-New subclass of KeyedCollection that takes a `keySelector` delegate as a
-constructor parameter. Created class `KeyedCollectionExtensions` method
-`ToKeyedCollection<TKey, TElement>` as another extension method to construct
-this LambdaKeyedCollection. ✓
-
-### Test Coverage
-
-Created unit tests for each extension method using FluentAssertions. ✓
-
-## Done
-
-All sorted collection extension methods complete:
-- ToSortedDictionary<TKey, TValue> with IComparer<T> overloads
-- ToSortedList<TKey, TValue> with IComparer<T> overloads  
-- ToSortedSet<T> with IComparer<T> overloads
-- ToKeyedCollection<TKey, TElement>
-
-All unit tests passing (24 tests).
+- For each one also allow a factory lambda that returns an I* *without* the new() where-clause;
+- Full unit tests for all 3 classes IDictionaryExtensions, IListExtensions, ISetExtensions.
