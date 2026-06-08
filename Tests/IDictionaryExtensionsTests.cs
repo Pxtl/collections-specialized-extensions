@@ -1,4 +1,4 @@
-namespace CollectionsSpecializedExtensions.Tests.IDictionaryExtensionsTests;
+namespace CollectionsSpecializedExtensions.Tests;
 
 public class ToIDictionary_FromKeyValuePair
 {
@@ -12,14 +12,6 @@ public class ToIDictionary_FromKeyValuePair
 
         Assert.Equal(2, collection.Count);
         Assert.Equal(1, collection["a"]);
-    }
-
-    [Fact]
-    public void ThrowsOnNullSource()
-    {
-        Assert.Throws<ArgumentNullException>(() =>
-            ((IEnumerable<KeyValuePair<string, int>>?)null)
-                .ToIDictionary(() => new Dictionary<string, int>()));
     }
 }
 
@@ -43,29 +35,33 @@ public class ToIDictionary_FromObjectGraph
     [Fact]
     public void ThrowsOnNullKeySelector()
     {
-        var source = new[] {
-            new { Key = "a", Value = 1 }
+        var source = new [] {
+            new KeyValuePair<string, int>("a", 1)
         };
+
+        Func<KeyValuePair<string, int>, string>? keySelector = null;
 
         Assert.Throws<ArgumentNullException>(() =>
             source.ToIDictionary(
                 () => new Dictionary<string, int>(),
-                null!,
+                keySelector!,
                 x => x.Value));
     }
 
     [Fact]
     public void ThrowsOnNullValueSelector()
     {
-        var source = new[] {
-            new { Key = "a", Value = 1 }
+        var source = new [] {
+            new KeyValuePair<string, int>("a", 1)
         };
+
+        Func<KeyValuePair<string, int>, int>? valueSelector = null;
 
         Assert.Throws<ArgumentNullException>(() =>
             source.ToIDictionary(
                 () => new Dictionary<string, int>(),
                 x => x.Key,
-                null!));
+                valueSelector!));
     }
 }
 
@@ -75,13 +71,6 @@ public class ToIDictionary_FromTupleSequence
     public void CreatesDictionary_FromTupleSequence()
     {
         var collection = new[] { ("a", 1), ("b", 2) }.ToIDictionary(() => new Dictionary<string, int>());
-        Assert.Equal(2, collection.Count);
-    }
-
-    [Fact]
-    public void UsesFactoryFunction()
-    {
-        var collection = new[] { ("k1", "v1"), ("k2", "v2") }.ToIDictionary(() => new Dictionary<string, int>());
         Assert.Equal(2, collection.Count);
     }
 }
@@ -104,22 +93,23 @@ public class ToIDictionary_NullChecks
     [Fact]
     public void ThrowsOnNullSource_WithTupleSource()
     {
-        Assert.Throws<ArgumentNullException>(() =>
-            ((IEnumerable<(string, int)?>?)null).ToIDictionary(() => new Dictionary<string, int>()));
+        IEnumerable<(string, int)>? source = null;
+        Assert.Throws<ArgumentNullException>(() => source!.ToIDictionary(() => new Dictionary<string, int>()));
     }
 
     [Fact]
     public void ThrowsOnNullSource_WithKeyValuePairSource()
     {
-        Assert.Throws<ArgumentNullException>(() =>
-            ((IEnumerable<KeyValuePair<string, int>>?)null).ToIDictionary(() => new Dictionary<string, int>()));
+        IEnumerable<KeyValuePair<string, int>>? source = null;
+        Assert.Throws<ArgumentNullException>(() => source!.ToIDictionary(() => new Dictionary<string, int>()));
     }
 
     [Fact]
     public void ThrowsOnNullFactory()
     {
         var source = new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("a", 1) };
-        Assert.Throws<ArgumentNullException>(() => source.ToIDictionary((Func<Dictionary<string, int>>)null));
+        Func<Dictionary<string, int>>? factory = null;
+        Assert.Throws<ArgumentNullException>(() => source.ToIDictionary(factory!));
     }
 }
 
