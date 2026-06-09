@@ -10,7 +10,9 @@ dotnet add package Collections.Specialized.Extensions
 
 ## Features
 
-- **IDictionaryExtensions** - Convert any collection to any class implementing IDictionary with ToIDictionary and a factory function
+- **IDictionaryExtensions** - Convert any collection to any class implementing IDictionary with ToIDictionary
+- **IListExtensions** - Convert any collection to any class implementing IList with ToIList
+- **ISetExtensions** - Convert any collection to any class implementing ISet with ISet
 - **KeyedCollectionExtensions** - Convert any collection to KeyedCollection with ToKeyedCollection
 - **LinkedListExtensionsExtensions** - Convert any collection to LinkedList with ToLinkedList
 - **NameValueCollectionExtensions** - Convert any collection to NameValueCollection with ToNameValueCollection
@@ -18,7 +20,7 @@ dotnet add package Collections.Specialized.Extensions
 - **OrderedDictionaryExtensions** - Convert any collection to OrderedDictionary with ToOrderedDictionary
 - **SortedDictionaryExtensions** - Convert any collection to SortedDictionary with ToSortedDictionary
 - **SortedListExtensions** - Convert any collection to SortedList with ToSortedList
-- **SortedSetExtensions** - Convert any collection to Sortedset with ToSortedSet
+- **SortedSetExtensions** - Convert any collection to SortedSet with ToSortedSet
 
 ## Usage
 
