@@ -10,7 +10,10 @@
     <Nullable>enable</Nullable>
     <PackageId>Collections.Specialized.Extensions</PackageId>
     <Authors>Martin Zarate (AKA Pxtl)</Authors>
-    <Description>Specialized collection extension methods for .NET 10. Provides utility methods for NameValueCollection, sorted collections, and keyed collections.</Description>
+    <Description>
+      Specialized collection extension methods for .NET 10. Provides utility methods for NameValueCollection,
+      sorted collections, generic collection interfaces, and keyed collections.
+    </Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/pxtl-clod/collections-specialized-extensions</PackageProjectUrl>
     <RepositoryUrl>$(PackageProjectUrl)</RepositoryUrl>
@@ -20,7 +23,13 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <!-- coding standards -->
+  <PropertyGroup>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,6 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.RulesetToEditorconfigConverter" Version="4.14.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

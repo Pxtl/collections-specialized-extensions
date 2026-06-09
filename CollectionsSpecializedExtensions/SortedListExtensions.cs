@@ -7,8 +7,7 @@ namespace CollectionsSpecializedExtensions;
 /// Provides LINQ-like extension methods to create <see cref="SortedList{TKey,TValue}"/> from
 /// enumerable sources with custom sorting.
 /// </remarks>
-public static class SortedListExtensions
-{
+public static class SortedListExtensions {
     /// <summary>
     /// Creates a new <see cref="SortedList{TKey, TValue}"/> from an <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/> source.
     /// </summary>
@@ -18,14 +17,14 @@ public static class SortedListExtensions
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
     public static SortedList<TKey, TValue> ToSortedList<TKey, TValue>(
         this IEnumerable<KeyValuePair<TKey, TValue>> source,
-        IComparer<TKey> comparer)
-        where TKey : notnull
-    {
+        IComparer<TKey> comparer
+    )
+    where TKey : notnull {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(comparer, nameof(comparer));
         var sortedList = new SortedList<TKey, TValue>(comparer);
-        foreach (var item in source)
-        {
+        foreach (var item in source) {
             sortedList[item.Key] = item.Value;
         }
         return sortedList;
@@ -38,13 +37,13 @@ public static class SortedListExtensions
     /// <returns>A new <see cref="SortedList{TKey, TValue}"/> with the mapped data.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
     public static SortedList<TKey, TValue> ToSortedList<TKey, TValue>(
-        this IEnumerable<KeyValuePair<TKey, TValue>> source)
-        where TKey : notnull
-    {
+        this IEnumerable<KeyValuePair<TKey, TValue>> source
+    )
+    where TKey : notnull {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         var sortedList = new SortedList<TKey, TValue>();
-        foreach (var item in source)
-        {
+        foreach (var item in source) {
             sortedList[item.Key] = item.Value;
         }
         return sortedList;
@@ -63,15 +62,15 @@ public static class SortedListExtensions
     public static SortedList<TKey, TSource> ToSortedList<TKey, TSource>(
         this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector,
-        IComparer<TKey> comparer)
-        where TKey : notnull
-    {
+        IComparer<TKey> comparer
+    )
+    where TKey : notnull {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(keySelector, nameof(keySelector));
         ArgumentNullException.ThrowIfNull(comparer, nameof(comparer));
         var sortedList = new SortedList<TKey, TSource>(comparer);
-        foreach (var element in source)
-        {
+        foreach (var element in source) {
             sortedList[keySelector(element)] = element;
         }
         return sortedList;
@@ -88,14 +87,14 @@ public static class SortedListExtensions
     /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> is null.</exception>
     public static SortedList<TKey, TSource> ToSortedList<TKey, TSource>(
         this IEnumerable<TSource> source,
-        Func<TSource, TKey> keySelector)
-        where TKey : notnull
-    {
+        Func<TSource, TKey> keySelector
+    )
+    where TKey : notnull {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(keySelector, nameof(keySelector));
         var sortedList = new SortedList<TKey, TSource>();
-        foreach (var element in source)
-        {
+        foreach (var element in source) {
             sortedList[keySelector(element)] = element;
         }
         return sortedList;
@@ -114,16 +113,16 @@ public static class SortedListExtensions
         this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector,
         Func<TSource, TValue> valueSelector,
-        IComparer<TKey> comparer)
-        where TKey : notnull
-    {
+        IComparer<TKey> comparer
+    )
+    where TKey : notnull {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(keySelector, nameof(keySelector));
         ArgumentNullException.ThrowIfNull(valueSelector, nameof(valueSelector));
         ArgumentNullException.ThrowIfNull(comparer, nameof(comparer));
         var sortedList = new SortedList<TKey, TValue>(comparer);
-        foreach (var element in source)
-        {
+        foreach (var element in source) {
             var key = keySelector(element);
             var value = valueSelector(element);
             sortedList[key] = value;
@@ -142,15 +141,15 @@ public static class SortedListExtensions
     public static SortedList<TKey, TValue> ToSortedList<TSource, TKey, TValue>(
         this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector,
-        Func<TSource, TValue> valueSelector)
-        where TKey : notnull
-    {
+        Func<TSource, TValue> valueSelector
+    )
+    where TKey : notnull {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(keySelector, nameof(keySelector));
         ArgumentNullException.ThrowIfNull(valueSelector, nameof(valueSelector));
         var sortedList = new SortedList<TKey, TValue>();
-        foreach (var element in source)
-        {
+        foreach (var element in source) {
             var key = keySelector(element);
             var value = valueSelector(element);
             sortedList[key] = value;
@@ -167,14 +166,14 @@ public static class SortedListExtensions
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
     public static SortedList<TKey, TValue> ToSortedList<TKey, TValue>(
         this IEnumerable<(TKey, TValue)> source,
-        IComparer<TKey> comparer)
-        where TKey : notnull
-    {
+        IComparer<TKey> comparer
+    )
+    where TKey : notnull {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(comparer, nameof(comparer));
         var sortedList = new SortedList<TKey, TValue>(comparer);
-        foreach (var (key, value) in source)
-        {
+        foreach (var (key, value) in source) {
             sortedList[key] = value;
         }
         return sortedList;
@@ -187,13 +186,13 @@ public static class SortedListExtensions
     /// <returns>A new <see cref="SortedList{TKey, TValue}"/> with the mapped data.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
     public static SortedList<TKey, TValue> ToSortedList<TKey, TValue>(
-        this IEnumerable<(TKey, TValue)> source)
-        where TKey : notnull
-    {
+        this IEnumerable<(TKey, TValue)> source
+    )
+    where TKey : notnull {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         var sortedList = new SortedList<TKey, TValue>();
-        foreach (var (key, value) in source)
-        {
+        foreach (var (key, value) in source) {
             sortedList[key] = value;
         }
         return sortedList;

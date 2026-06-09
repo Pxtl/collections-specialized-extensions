@@ -7,8 +7,7 @@ namespace CollectionsSpecializedExtensions;
 /// Provides LINQ-like extension methods to create <see cref="ISet{T}"/> from
 /// enumerable sources.
 /// </remarks>
-public static class ISetExtensions
-{
+public static class ISetExtensions {
     /// <summary>
     /// Creates a new <see cref="ISet{T}"/> from an <see cref="IEnumerable{T}"/> source.
     /// </summary>
@@ -18,14 +17,14 @@ public static class ISetExtensions
     /// <returns>A new <see cref="ISet{T}"/> with the unique data.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
     public static TSet ToISet<TSet, T>(
-        this IEnumerable<T> source)
-        where TSet: ISet<T>, new()
-    {
+        this IEnumerable<T> source
+    )
+    where TSet : ISet<T>, new() {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
 
         var set = new TSet();
-        foreach (var item in source)
-        {
+        foreach (var item in source) {
             set.Add(item);
         }
         return set;
@@ -48,15 +47,15 @@ public static class ISetExtensions
     /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="factory"/> is null.</exception>
     public static TSet ToISet<TSet, T>(
         this IEnumerable<T> source,
-        Func<TSet> factory)
-        where TSet: ISet<T>
-    {
+        Func<TSet> factory
+    )
+    where TSet : ISet<T> {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(factory, nameof(factory));
 
         var set = factory();
-        foreach (var item in source)
-        {
+        foreach (var item in source) {
             set.Add(item);
         }
         return set;

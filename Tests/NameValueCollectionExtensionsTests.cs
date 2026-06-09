@@ -5,11 +5,9 @@ using Xunit;
 
 namespace CollectionsSpecializedExtensions.Tests;
 
-public class NameValueCollectionExtensionsTests
-{
+public class NameValueCollectionExtensionsTests {
     [Fact]
-    public void ToNameValueCollection_WithSelector_CreatesCollection()
-    {
+    public void ToNameValueCollection_WithSelector_CreatesCollection() {
         var source = new List<(string key, int value)>
         {
             ("a", 1),
@@ -27,8 +25,7 @@ public class NameValueCollectionExtensionsTests
     }
 
     [Fact]
-    public void ToNameValueCollection_WithTupleSource_CreatesCollection()
-    {
+    public void ToNameValueCollection_WithTupleSource_CreatesCollection() {
         var source = new List<(string, string)>
         {
             ("test1", "val1"),
@@ -42,10 +39,8 @@ public class NameValueCollectionExtensionsTests
     }
 
     [Fact]
-    public void ToNameValueCollection_NullSource_Throws()
-    {
-        Action act = () =>
-        {
+    public void ToNameValueCollection_NullSource_Throws() {
+        Action act = () => {
             var source = (IEnumerable<(string, string)>?)null!;
             source!.ToNameValueCollection();
         };

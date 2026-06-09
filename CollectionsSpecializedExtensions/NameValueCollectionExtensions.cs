@@ -1,4 +1,5 @@
 namespace CollectionsSpecializedExtensions;
+
 using System.Collections;
 
 /// <summary>
@@ -8,8 +9,7 @@ using System.Collections;
 /// Provides LINQ-like extension methods to create <see cref="NameValueCollection"/> from
 /// enumerable sources using custom selector functions.
 /// </remarks>
-public static class NameValueCollectionExtensions
-{
+public static class NameValueCollectionExtensions {
     /// <summary>
     /// Creates a new <see cref="NameValueCollection"/> from an <see
     /// cref="IEnumerable{TElement}"/> using selector parameters.
@@ -20,15 +20,13 @@ public static class NameValueCollectionExtensions
     public static NameValueCollection ToNameValueCollection<TElement>(
         this IEnumerable<TElement> source,
         Func<TElement, string> keySelector,
-        Func<TElement, string> valueSelector)
-    {
+        Func<TElement, string> valueSelector) {
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(keySelector, nameof(keySelector));
         ArgumentNullException.ThrowIfNull(valueSelector, nameof(valueSelector));
 
         var collection = new NameValueCollection();
-        foreach (var element in source)
-        {
+        foreach (var element in source) {
             collection.Add(keySelector(element), valueSelector(element));
         }
         return collection;
@@ -45,16 +43,14 @@ public static class NameValueCollectionExtensions
         this IEnumerable<TElement> source,
         Func<TElement, string> keySelector,
         Func<TElement, string> valueSelector,
-        IEqualityComparer equalityComparer)
-    {
+        IEqualityComparer equalityComparer) {
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(keySelector, nameof(keySelector));
         ArgumentNullException.ThrowIfNull(valueSelector, nameof(valueSelector));
         ArgumentNullException.ThrowIfNull(equalityComparer, nameof(equalityComparer));
 
         var collection = new NameValueCollection(equalityComparer);
-        foreach (var element in source)
-        {
+        foreach (var element in source) {
             collection.Add(keySelector(element), valueSelector(element));
         }
         return collection;
@@ -66,13 +62,11 @@ public static class NameValueCollectionExtensions
     /// <returns>A new <see cref="NameValueCollection"/> with the mapped data.</returns>
     /// <exception cref="ArgumentNullException" />
     public static NameValueCollection ToNameValueCollection(
-        this IEnumerable<(string, string)> source)
-    {
+        this IEnumerable<(string, string)> source) {
         ArgumentNullException.ThrowIfNull(source, nameof(source));
 
         var collection = new NameValueCollection();
-        foreach (var item in source)
-        {
+        foreach (var item in source) {
             collection.Add(item.Item1, item.Item2);
         }
         return collection;
@@ -85,14 +79,12 @@ public static class NameValueCollectionExtensions
     /// <exception cref="ArgumentNullException" />
     public static NameValueCollection ToNameValueCollection(
         this IEnumerable<(string, string)> source,
-        IEqualityComparer? equalityComparer)
-    {
+        IEqualityComparer? equalityComparer) {
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(equalityComparer, nameof(equalityComparer));
 
         var collection = new NameValueCollection(equalityComparer);
-        foreach (var item in source)
-        {
+        foreach (var item in source) {
             collection.Add(item.Item1, item.Item2);
         }
         return collection;

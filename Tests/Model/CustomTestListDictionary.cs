@@ -8,8 +8,7 @@ namespace CollectionsSpecializedExtensions.Tests.Model;
 /// <typeparam name="TKey"></typeparam>
 /// <typeparam name="TValue"></typeparam>
 [System.Runtime.InteropServices.ComVisible(false)]
-public class CustomTestListDictionary<TKey, TValue> : ICollection<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue>
-{
+public class CustomTestListDictionary<TKey, TValue> : ICollection<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue> {
     private readonly List<KeyValuePair<TKey, TValue>> _items = new();
     public int Count => _items.Count;
     public bool IsReadOnly => false;
@@ -18,12 +17,12 @@ public class CustomTestListDictionary<TKey, TValue> : ICollection<KeyValuePair<T
 
     public ICollection<TValue> Values => _items.Select(p => p.Value).ToList().AsReadOnly();
 
-    public TValue this[TKey key] { 
-        get => _items.Single(p => Equals(p.Key, key)).Value; 
+    public TValue this[TKey key] {
+        get => _items.Single(p => Equals(p.Key, key)).Value;
         set {
             Remove(key);
             _items.Add(new KeyValuePair<TKey, TValue>(key, value));
-        } 
+        }
     }
 
     public void Add(KeyValuePair<TKey, TValue> item) => _items.Add(item);
@@ -34,9 +33,8 @@ public class CustomTestListDictionary<TKey, TValue> : ICollection<KeyValuePair<T
     public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => _items.GetEnumerator();
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => _items.GetEnumerator();
 
-    public void Add(TKey key, TValue value)
-    {
-        if(ContainsKey(key)) {
+    public void Add(TKey key, TValue value) {
+        if (ContainsKey(key)) {
             throw new ArgumentException("Key already exists", nameof(key));
         } else {
             _items.Add(new KeyValuePair<TKey, TValue>(key, value));
@@ -45,9 +43,8 @@ public class CustomTestListDictionary<TKey, TValue> : ICollection<KeyValuePair<T
 
     public bool ContainsKey(TKey key) => _items.Any(p => Equals(p.Key, key));
 
-    public bool Remove(TKey key)
-    {
-        if(ContainsKey(key)) {
+    public bool Remove(TKey key) {
+        if (ContainsKey(key)) {
             _items.RemoveAll(p => Equals(p.Key, key));
             return true;
         } else {
@@ -56,7 +53,7 @@ public class CustomTestListDictionary<TKey, TValue> : ICollection<KeyValuePair<T
     }
 
     public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value) {
-        if(ContainsKey(key)) {
+        if (ContainsKey(key)) {
             value = this[key];
             return true;
         } else {

@@ -3,10 +3,9 @@ namespace CollectionsSpecializedExtensions;
 /// <summary>
 /// Extension methods for <see cref="IDictionary{TKey,TValue}"/>.
 /// </summary>
-public static class IDictionaryExtensions
-{
+public static class IDictionaryExtensions {
     /// <summary>
-    /// Creates a new <see cref="IDictionary{TKey, TValue}"/> from an <see cref="IEnumerable{T}"/> 
+    /// Creates a new <see cref="IDictionary{TKey, TValue}"/> from an <see cref="IEnumerable{T}"/>
     /// of <see cref="KeyValuePair{TKey, TValue}"/>.
     /// </summary>
     /// <param name="source">The enumerable source of key-value pairs.</param>
@@ -16,21 +15,21 @@ public static class IDictionaryExtensions
     /// <returns>A new <see cref="IDictionary{TKey, TValue}"/> with the mapped data.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
     public static TDictionary ToIDictionary<TDictionary, TKey, TValue>(
-        this IEnumerable<KeyValuePair<TKey, TValue>> source)
-        where TKey : notnull
-        where TDictionary: IDictionary<TKey, TValue>, new()
-    {
+        this IEnumerable<KeyValuePair<TKey, TValue>> source
+    )
+    where TKey : notnull
+    where TDictionary : IDictionary<TKey, TValue>, new() {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         var dictionary = new TDictionary();
-        foreach (var item in source)
-        {
+        foreach (var item in source) {
             dictionary[item.Key] = item.Value;
         }
         return dictionary;
     }
 
     /// <summary>
-    /// Creates a new <see cref="IDictionary{TKey, TValue}"/> from an <see cref="IEnumerable{T}"/> 
+    /// Creates a new <see cref="IDictionary{TKey, TValue}"/> from an <see cref="IEnumerable{T}"/>
     /// of <see cref="KeyValuePair{TKey, TValue}"/> source using the factory to construct it.
     /// </summary>
     /// <param name="source">The enumerable source of key-value pairs.</param>
@@ -42,15 +41,15 @@ public static class IDictionaryExtensions
     /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="factory"/> is null.</exception>
     public static TDictionary ToIDictionary<TDictionary, TKey, TValue>(
         this IEnumerable<KeyValuePair<TKey, TValue>> source,
-        Func<TDictionary> factory)
-        where TKey : notnull
-        where TDictionary: IDictionary<TKey, TValue>
-    {
+        Func<TDictionary> factory
+    )
+    where TKey : notnull
+    where TDictionary : IDictionary<TKey, TValue> {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(factory, nameof(factory));
         var dictionary = factory();
-        foreach (var item in source)
-        {
+        foreach (var item in source) {
             dictionary[item.Key] = item.Value;
         }
         return dictionary;
@@ -68,20 +67,20 @@ public static class IDictionaryExtensions
     /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> is null.</exception>
     public static TDictionary ToIDictionary<TDictionary, TKey, TSource>(
         this IEnumerable<TSource> source,
-        Func<TSource, TKey> keySelector)
-        where TKey : notnull 
-        where TDictionary: IDictionary<TKey, TSource>, new()
-    {
+        Func<TSource, TKey> keySelector
+    )
+    where TKey : notnull
+    where TDictionary : IDictionary<TKey, TSource>, new() {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(keySelector, nameof(keySelector));
 
         var dictionary = new TDictionary();
-        foreach (var element in source)
-        {
+        foreach (var element in source) {
             dictionary[keySelector(element)] = element;
         }
         return dictionary;
-    }    
+    }
 
     /// <summary>
     /// Creates a new <see cref="IDictionary{TKey, TSource}"/> from an <see cref="IEnumerable{TSource}"/>
@@ -98,17 +97,17 @@ public static class IDictionaryExtensions
     public static TDictionary ToIDictionary<TDictionary, TKey, TSource>(
         this IEnumerable<TSource> source,
         Func<TDictionary> factory,
-        Func<TSource, TKey> keySelector)
-        where TKey : notnull 
-        where TDictionary: IDictionary<TKey, TSource>
-    {
+        Func<TSource, TKey> keySelector
+    )
+    where TKey : notnull
+    where TDictionary : IDictionary<TKey, TSource> {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(factory, nameof(factory));
         ArgumentNullException.ThrowIfNull(keySelector, nameof(keySelector));
 
         var dictionary = factory();
-        foreach (var element in source)
-        {
+        foreach (var element in source) {
             dictionary[keySelector(element)] = element;
         }
         return dictionary;
@@ -129,17 +128,17 @@ public static class IDictionaryExtensions
     public static TDictionary ToIDictionary<TDictionary, TSource, TKey, TValue>(
         this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector,
-        Func<TSource, TValue> valueSelector)
-        where TKey : notnull
-        where TDictionary: IDictionary<TKey, TValue>, new()
-    {
+        Func<TSource, TValue> valueSelector
+    )
+    where TKey : notnull
+    where TDictionary : IDictionary<TKey, TValue>, new() {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(keySelector, nameof(keySelector));
         ArgumentNullException.ThrowIfNull(valueSelector, nameof(valueSelector));
 
         var dictionary = new TDictionary();
-        foreach (var element in source)
-        {
+        foreach (var element in source) {
             var key = keySelector(element);
             var value = valueSelector(element);
             dictionary[key] = value;
@@ -149,7 +148,7 @@ public static class IDictionaryExtensions
 
 
     /// <summary>
-    /// Creates a new <see cref="IDictionary{TKey, TValue}"/> with key and value selectors 
+    /// Creates a new <see cref="IDictionary{TKey, TValue}"/> with key and value selectors
     /// using the factory to construct it.
     /// </summary>
     /// <param name="source">The enumerable source of elements.</param>
@@ -166,18 +165,18 @@ public static class IDictionaryExtensions
         this IEnumerable<TSource> source,
         Func<TDictionary> factory,
         Func<TSource, TKey> keySelector,
-        Func<TSource, TValue> valueSelector)
-        where TKey : notnull
-        where TDictionary: IDictionary<TKey, TValue>
-    {
+        Func<TSource, TValue> valueSelector
+    )
+    where TKey : notnull
+    where TDictionary : IDictionary<TKey, TValue> {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(factory, nameof(factory));
         ArgumentNullException.ThrowIfNull(keySelector, nameof(keySelector));
         ArgumentNullException.ThrowIfNull(valueSelector, nameof(valueSelector));
 
         var dictionary = factory();
-        foreach (var element in source)
-        {
+        foreach (var element in source) {
             var key = keySelector(element);
             var value = valueSelector(element);
             dictionary[key] = value;
@@ -195,19 +194,19 @@ public static class IDictionaryExtensions
     /// <returns>A new <see cref="IDictionary{TKey, TValue}"/> with the mapped data.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
     public static TDictionary ToIDictionary<TDictionary, TKey, TValue>(
-        this IEnumerable<(TKey, TValue)> source)
-        where TKey : notnull
-        where TDictionary: IDictionary<TKey, TValue>, new()
-    {
+        this IEnumerable<(TKey, TValue)> source
+    )
+    where TKey : notnull
+    where TDictionary : IDictionary<TKey, TValue>, new() {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
 
         var dictionary = new TDictionary();
-        foreach (var item in source)
-        {
+        foreach (var item in source) {
             dictionary[item.Item1] = item.Item2;
         }
         return dictionary;
-    }   
+    }
 
     /// <summary>
     /// Creates a new <see cref="IDictionary{TKey, TValue}"/> from an <see cref="IEnumerable{T}"/> of <see cref="ValueTuple{TKey, TValue}"/> source
@@ -222,16 +221,16 @@ public static class IDictionaryExtensions
     /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="factory"/> is null.</exception>
     public static TDictionary ToIDictionary<TDictionary, TKey, TValue>(
         this IEnumerable<(TKey, TValue)> source,
-        Func<TDictionary> factory)
-        where TKey : notnull
-        where TDictionary: IDictionary<TKey, TValue>
-    {
+        Func<TDictionary> factory
+    )
+    where TKey : notnull
+    where TDictionary : IDictionary<TKey, TValue> {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(factory, nameof(factory));
 
         var dictionary = factory();
-        foreach (var item in source)
-        {
+        foreach (var item in source) {
             dictionary[item.Item1] = item.Item2;
         }
         return dictionary;

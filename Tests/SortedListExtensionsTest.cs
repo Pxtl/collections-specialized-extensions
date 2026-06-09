@@ -5,11 +5,9 @@ using Xunit;
 
 namespace CollectionsSpecializedExtensions.Tests;
 
-public class SortedListExtensionsTests
-{
+public class SortedListExtensionsTests {
     [Fact]
-    public void ToSortedList_WithDictionarySource_CreatesSortedCollection_WithAllElements()
-    {
+    public void ToSortedList_WithDictionarySource_CreatesSortedCollection_WithAllElements() {
         var source = new List<KeyValuePair<string, int>> {
             new("c", 3),
             new("a", 1),
@@ -17,7 +15,7 @@ public class SortedListExtensionsTests
             new("d", 4)
         };
         var result = source.ToSortedList();
-        
+
         result.Count.Should().Be(4);
         result["a"].Should().Be(1);
         result["b"].Should().Be(2);
@@ -26,16 +24,14 @@ public class SortedListExtensionsTests
     }
 
     [Fact]
-    public void ToSortedList_NullSource_Throws()
-    {
+    public void ToSortedList_NullSource_Throws() {
         IEnumerable<KeyValuePair<string, int>>? source = null;
         Action act = () => source!.ToSortedList();
         act.Should().Throw<ArgumentNullException>();
     }
 
     [Fact]
-    public void ToSortedList_NullComparer_Throws()
-    {
+    public void ToSortedList_NullComparer_Throws() {
         var source = new List<KeyValuePair<string, int>> {
             new("c", 3),
             new("a", 1),
@@ -46,8 +42,7 @@ public class SortedListExtensionsTests
     }
 
     [Fact]
-    public void ToSortedList_WithKeyAndValueSelectors_CreatesSortedCollection_WithMappedElements()
-    {
+    public void ToSortedList_WithKeyAndValueSelectors_CreatesSortedCollection_WithMappedElements() {
         var source = new List<(int Id, string Name, int Value)> {
             new(3, "c", 30),
             new(1, "a", 10),
@@ -58,7 +53,7 @@ public class SortedListExtensionsTests
             x => x.Name,
             x => x.Value
         );
-        
+
         result.Count.Should().Be(4);
         result["a"].Should().Be(10);
         result["b"].Should().Be(20);
@@ -67,8 +62,7 @@ public class SortedListExtensionsTests
     }
 
     [Fact]
-    public void ToSortedList_WithKeyAndValueSelectorsAndComparer_CreatesSortedCollection_WithMappedElements()
-    {
+    public void ToSortedList_WithKeyAndValueSelectorsAndComparer_CreatesSortedCollection_WithMappedElements() {
         var source = new List<(int Id, string Name)> {
             new(3, "d"),
             new(1, "a"),
@@ -81,7 +75,7 @@ public class SortedListExtensionsTests
             x => x.Id,
             comparer
         );
-        
+
         result.Count.Should().Be(4);
         result["a"].Should().Be(1);
         result["b"].Should().Be(2);

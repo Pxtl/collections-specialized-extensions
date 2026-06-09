@@ -9,10 +9,9 @@ namespace CollectionsSpecializedExtensions.Tests.Model;
 /// </summary>
 /// <typeparam name="T"></typeparam>
 [ExcludeFromCodeCoverage]
-public class CustomTestListSet<T> : ICollection<T>, ISet<T>
-{
+public class CustomTestListSet<T> : ICollection<T>, ISet<T> {
     private List<T> _items = new();
-    
+
     #region CRUD operations
     public int Count => _items.Count;
     public bool IsReadOnly => false;
@@ -27,8 +26,7 @@ public class CustomTestListSet<T> : ICollection<T>, ISet<T>
     public IEnumerator<T> GetEnumerator() => _items.GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
 
-    public bool Add(T item)
-    {
+    public bool Add(T item) {
         if (_items.Contains(item)) {
             return false;
         } else {
@@ -37,8 +35,7 @@ public class CustomTestListSet<T> : ICollection<T>, ISet<T>
         }
     }
 
-    void ICollection<T>.Add(T item)
-    {
+    void ICollection<T>.Add(T item) {
         _ = Add(item);
     }
 
@@ -63,24 +60,21 @@ public class CustomTestListSet<T> : ICollection<T>, ISet<T>
     # endregion set theory predicates
 
     #region set theory mutations
-    public void IntersectWith(IEnumerable<T> other)
-    {
+    public void IntersectWith(IEnumerable<T> other) {
         var exceptedItems = this.Except(other);
         foreach (var item in exceptedItems) {
             Remove(item);
         }
     }
 
-    public void SymmetricExceptWith(IEnumerable<T> other)
-    {
+    public void SymmetricExceptWith(IEnumerable<T> other) {
         var intersection = this.Intersect(other);
         foreach (var item in intersection) {
             Remove(item);
         }
     }
 
-    public void UnionWith(IEnumerable<T> other)
-    {
+    public void UnionWith(IEnumerable<T> other) {
         foreach (var item in other) {
             Add(item);
         }

@@ -7,8 +7,7 @@ namespace CollectionsSpecializedExtensions;
 /// Provides LINQ-like extension methods to create <see cref="IList{T}"/> from
 /// enumerable sources.
 /// </remarks>
-public static class IListExtensions
-{
+public static class IListExtensions {
     /// <summary>
     /// Creates a new <see cref="IList{T}"/> from an <see cref="IEnumerable{T}"/> source.
     /// </summary>
@@ -18,14 +17,14 @@ public static class IListExtensions
     /// <returns>A new <see cref="IList{T}"/> with the mapped data.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
     public static TList ToIList<TList, T>(
-        this IEnumerable<T> source)
-        where TList: IList<T>, new()
-    {
+        this IEnumerable<T> source
+    )
+    where TList : IList<T>, new() {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
 
         var list = new TList();
-        foreach (var item in source)
-        {
+        foreach (var item in source) {
             list.Add(item);
         }
         return list;
@@ -43,15 +42,15 @@ public static class IListExtensions
     /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="factory"/> is null.</exception>
     public static TList ToIList<TList, T>(
         this IEnumerable<T> source,
-        Func<TList> factory)
-        where TList: IList<T>
-    {
+        Func<TList> factory
+    )
+    where TList : IList<T> {
+
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         ArgumentNullException.ThrowIfNull(factory, nameof(factory));
 
         var list = factory();
-        foreach (var item in source)
-        {
+        foreach (var item in source) {
             list.Add(item);
         }
         return list;
